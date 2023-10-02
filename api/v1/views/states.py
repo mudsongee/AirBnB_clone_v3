@@ -16,6 +16,7 @@ def get_states():
         dict_.append(val.to_dict())
     return jsonify(dict_)
 
+
 @app_views.route('/states/<path:state_id>')
 @swag_from('documentation/state/get_state.yml', methods=['GET'])
 def get_state(state_id):
@@ -23,6 +24,7 @@ def get_state(state_id):
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
+
 
 @app_views.route('/states/<path:state_id>', methods=['DELETE'],
                  strict_slashes=False)
@@ -36,6 +38,7 @@ def delete_state(state_id):
     state.delete()
     storage.save()
     return jsonify({})
+
 
 @app_views.route('/states', methods=['POST'],
                  strict_slashes=False)
