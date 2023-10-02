@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request
 from flasgger.utils import swag_from
 
+
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 @swag_from('documentation/state/get_state.yml', methods=['GET'])
 def get_states():
