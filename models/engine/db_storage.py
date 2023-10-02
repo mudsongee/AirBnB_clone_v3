@@ -75,25 +75,25 @@ class DBStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-    def get(self, cls, id):
-        """get:
-        retrieve an obhect from the file storage by calss and id."""
-        if cls in classes.values() and type(id) == str:
-            d_obj = self.all(cls)
-            for key, value in d_obj.items():
-                if key.split("")[1] == id:
-                    return value
-        return None
     # def get(self, cls, id):
-    #     """
-    #     Returns the object based on the class name and its ID, or None if not found
-    #     """
+    #     """get:
+    #     retrieve an obhect from the file storage by calss and id."""
     #     if cls in classes.values() and type(id) == str:
-    #         all_cls = models.storage.all(cls)
-    #         for value in all_cls.values():
-    #             if value.id == id:
+    #         d_obj = self.all(cls)
+    #         for key, value in d_obj.items():
+    #             if key.split("")[1] == id:
     #                 return value
     #     return None
+    def get(self, cls, id):
+        """
+        Returns the object based on the class name and its ID, or None if not found
+        """
+        if cls in classes.values() and type(id) == str:
+            all_cls = models.storage.all(cls)
+            for value in all_cls.values():
+                if value.id == id:
+                    return value
+        return None
 
     def count(self, cls=None):
         """count:
