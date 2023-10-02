@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-This script starts a Flask web application Done
-"""
+"""This script starts a Flask web application Done"""
 
 from os import getenv
 from flask import Flask, jsonify
@@ -10,7 +8,6 @@ from models import storage
 from api.v1.views import app_views
 # from flasgger import Swagger
 # from flasgger.utils import swag_from
-
 
 app = Flask(__name__)
 
