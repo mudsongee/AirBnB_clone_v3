@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """
-This module implement a rule that returns 
+This module implement a rule that returns
 the status of the application Done
 """
 
 from flask import jsonify
 import models
-from models import storage #added 
+# added
+from models import storage
 from api.v1.views import app_views
 # from models.amenity import Amenity
 # from models.city import City
@@ -44,7 +45,7 @@ def view_stats():
         "reviews": models.storage.count('Review'),
         "states": models.storage.count('State'),
         "users": models.storage.count('User'),
-        #"users": models.storage.count(models.user.User)
+        # "users": models.storage.count(models.user.User)
 
     }
     return jsonify(stats)
