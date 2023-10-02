@@ -1,10 +1,8 @@
 #!/usr/bin/python3
-"""
-    This script starts a Flask web application Done
-"""
+"""This script starts a Flask web application Done"""
 from os import getenv
 from flask import Flask, jsonify
-from flask_cors import CORS
+#from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 #from flasgger import Swagger

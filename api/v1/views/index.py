@@ -38,6 +38,8 @@ def view_stats():
         "places": models.storage.count('Place'),
         "reviews": models.storage.count('Review'),
         "states": models.storage.count('State'),
-        "users": models.storage.count(models.user.User)
+        "users": models.storage.count('User'),
+        #"users": models.storage.count(models.user.User)
+
     }
     return jsonify(stats)
