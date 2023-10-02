@@ -92,4 +92,3 @@ class DBStorage:
         if cls in classes.values():
             data = self.all(cls)
         return len(data)
-    
