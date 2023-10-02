@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """Contains the class DBStorage"""
+
+
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -16,7 +18,6 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
-
 
 class DBStorage:
     """interaacts with the MySQL database"""
@@ -38,7 +39,6 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
-
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
@@ -50,22 +50,18 @@ class DBStorage:
                     new_dict[key] = obj
         return (new_dict)
 
-
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
-
 
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
 
-
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
         if obj is not None:
             self.__session.delete(obj)
-
 
     def reload(self):
         """reloads data from the database"""
@@ -74,21 +70,10 @@ class DBStorage:
         Session = scoped_session(sess_factory)
         self.__session = Session
 
-
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-
-    # def get(self, cls, id):
-    #     """get:
-    #     retrieve an obhect from the file storage by calss and id."""
-    #     if cls in classes.values() and type(id) == str:
-    #         d_obj = self.all(cls)
-    #         for key, value in d_obj.items():
-    #             if key.split("")[1] == id:
-    #                 return value
-    #     return None
     def get(self, cls, id):
         """get:
         retrieve an obhect from the file storage by calss and id."""
@@ -98,7 +83,6 @@ class DBStorage:
                 if value.id == id:
                     return value
         return None
-
 
     def count(self, cls=None):
         """count:
