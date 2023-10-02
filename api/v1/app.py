@@ -6,8 +6,8 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
-# from flasgger import Swagger
-# from flasgger.utils import swag_from
+from flasgger import Swagger
+from flasgger.utils import swag_from
 
 app = Flask(__name__)
 
@@ -31,12 +31,12 @@ def not_found(error):
     response = {"error": "Not found"}
     return jsonify(response), 404
 
-# app.config['SWAGGER'] = {
-#     'title': 'AirBnB clone Restful API',
-#     'uiversion': 3
-# }
+app.config['SWAGGER'] = {
+     'title': 'AirBnB clone Restful API',
+     'uiversion': 3
+}
 
-# Swagger(app)
+Swagger(app)
 
 
 if __name__ == '__main__':
