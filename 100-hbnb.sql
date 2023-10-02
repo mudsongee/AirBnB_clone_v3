@@ -16,7 +16,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Drop database
-DROP DATABASE IF EXISTS hbnb_dev_db;
+-- DROP DATABASE IF EXISTS hbnb_dev_db;
 
 -- Create database + user if doesn't exist
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
