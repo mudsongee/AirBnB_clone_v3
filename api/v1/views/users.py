@@ -32,7 +32,7 @@ def delete_user(user_id):
         return jsonify({}), 200
     abort(404)
 
-    
+
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
     """Creates a new User object"""
@@ -47,7 +47,7 @@ def create_user():
     new_user.save()
     return jsonify(new_user.to_dict()), 201
 
-    
+
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
     """Updates a User object by ID"""
