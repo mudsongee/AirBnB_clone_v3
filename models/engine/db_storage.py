@@ -85,9 +85,8 @@ class DBStorage:
     #                 return value
     #     return None
     def get(self, cls, id):
-        """
-        Returns the object based on the class name and its ID, or None if not found
-        """
+        """get:
+        retrieve an obhect from the file storage by calss and id."""
         if cls in classes.values() and type(id) == str:
             all_cls = models.storage.all(cls)
             for value in all_cls.values():
