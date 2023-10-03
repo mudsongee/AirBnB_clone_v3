@@ -32,5 +32,6 @@ def view_stats():
         "reviews": models.storage.count('Review'),
         "states": models.storage.count('State'),
         "users": models.storage.count('User')
+        
     }
     return jsonify(stats)
