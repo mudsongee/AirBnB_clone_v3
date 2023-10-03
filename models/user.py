@@ -27,3 +27,19 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+    
+        # Hash the password when creating or updating a user object
+        if kwargs.get("password"):
+            self.password = hashlib.md5(kwargs["password"].encode()).hexdigest()
+
+    def to_dict(self, **kwargs):
+        """Returns a dictionary containing all keys/values of the instance"""
+        # Call the parent class's to_dict() method
+        dictionary = super().to_dict(**kwargs)
+
+        # Exclude the 'password' key from the dictionary except for FileStorage
+        if getenv("HBNB_TYPE_STORAGE") != "file":
+            dictionary.pop("password", None)
+
+        return dictionary
+    
