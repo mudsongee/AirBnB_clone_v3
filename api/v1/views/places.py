@@ -8,6 +8,7 @@ from models.user import User
 from api.v1.views import app_views
 from flasgger import swag_from
 
+
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'],
                  strict_slashes=False)
@@ -20,6 +21,7 @@ def get_places_by_city(city_id):
 
     places = [place.to_dict() for place in city.places]
     return jsonify(places)
+
 
 @app_views.route('/places/<place_id>',
                  methods=['GET'],
