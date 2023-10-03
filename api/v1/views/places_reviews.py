@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """This module defines the views for Review objects."""
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request
+from flask import jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.review import Review
 from models.user import User
+from flasgger.utils import swag_from
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
@@ -19,7 +20,7 @@ def get_reviews(place_id):
     return jsonify(reviews)
 
 
-@app_views.route("/reviews/<review_id>", methods=['GET'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def get_review(review_id):
     """Get a Review object by its ID"""
     review = storage.get(Review, review_id)
@@ -40,7 +41,8 @@ def delete_review(review_id):
     return jsonify({})
 
 
-@app_views.route("/places/<place_id>/reviews", methods=['POST'], strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
+                 strict_slashes=False)
 def create_review(place_id):
     """Create a new Review object for a Place"""
     place = storage.get(Place, place_id)
