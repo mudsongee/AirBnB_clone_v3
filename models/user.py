@@ -1,52 +1,49 @@
 #!/usr/bin/python3
-""" holds class User"""
+"""
+User Class from Models Module
+"""
 import hashlib
-import models
+import os
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
-from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class User(BaseModel, Base):
-    """Representation of a user """
-    if models.storage_t == 'db':
+    """
+        User class handles all application users
+    """
+    if STORAGE_TYPE == "db":
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+
+        places = relationship('Place', backref='user', cascade='delete')
+        reviews = relationship('Review', backref='user', cascade='delete')
     else:
-        email = ""
-        password = ""
-        first_name = ""
-        last_name = ""
+        email = ''
+        password = ''
+        first_name = ''
+        last_name = ''
 
     def __init__(self, *args, **kwargs):
-        """initializes user"""
+        """
+            instantiates user object
+        """
+        if kwargs:
+            pwd = kwargs.pop('password', None)
+            if pwd:
+                User.__set_password(self, pwd)
         super().__init__(*args, **kwargs)
-        
-        # Hash the password when creating or updating a user object
-        if kwargs.get("password"):
-            self.password_hash = hashlib.md5(kwargs["password"].encode()).hexdigest()
 
-    def to_dict(self, exclude_password=True):  # Add exclude_password parameter
-        """returns a dictionary containing all keys/values of the instance"""
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-
-        # Remove the password key if exclude_password is True
-        if exclude_password and "password" in new_dict:
-            del new_dict["password"]
-        
-        return new_dict
-    
+    def __set_password(self, pwd):
+        """
+            custom setter: encrypts password to MD5
+        """
+        secure = hashlib.md5()
+        secure.update(pwd.encode("utf-8"))
+        secure_password = secure.hexdigest()
+        setattr(self, "password", secure_password)
