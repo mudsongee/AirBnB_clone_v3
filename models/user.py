@@ -31,15 +31,22 @@ class User(BaseModel, Base):
         
         # Hash the password when creating or updating a user object
         if kwargs.get("password"):
-            self.password = hashlib.md5(kwargs["password"].encode()).hexdigest()
+            self.password_hash = hashlib.md5(kwargs["password"].encode()).hexdigest()
 
-    def to_dict(self, **kwargs):
-        """Returns a dictionary containing all keys/values of the instance"""
-        # Call the parent class's to_dict() method
-        dictionary = super().to_dict(**kwargs)
+    def to_dict(self, exclude_password=True):  # Add exclude_password parameter
+        """returns a dictionary containing all keys/values of the instance"""
+        new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+        new_dict["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in new_dict:
+            del new_dict["_sa_instance_state"]
 
-        # Exclude the 'password' key from the dictionary except for FileStorage
-        if getenv("HBNB_TYPE_STORAGE") != "file":
-            dictionary.pop("password", None)
-
-        return dictionary
+        # Remove the password key if exclude_password is True
+        if exclude_password and "password" in new_dict:
+            del new_dict["password"]
+        
+        return new_dict
+    
