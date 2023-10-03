@@ -5,7 +5,7 @@ from models.amenity import Amenity
 from api.v1.views import app_views
 from models import storage
 from os import getenv
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from flasgger.utils import swag_from
 
 mode = getenv("HBNB_TYPE_STORAGE")
@@ -40,15 +40,15 @@ def delete_amenity_from_place(place_id, amenity_id):
         if amenity not in place.amenities:
             abort(404)
     else:
-        if amenity.id not in place.amenity_id:
+        if amenity.id not in place.amenity_ids:
             abort(404)
     amenity.delete()
     storage.save()
 
     return jsonify({})
 
-@app_views.route("places/<place_id>/amenities/<amenity_id>", methods=["POST"],
-                 strict_slashes=False)
+@app_views.route("/places/<place_id>/amenities/<amenity_id>",
+                 methods=["POST"], strict_slashes=False)
 @swag_from('documentation/place_amenity/post_place_amenities.yml',
            methods=['POST'])
 def insert_amenity_in_place(place_id, amenity_id):
@@ -63,9 +63,9 @@ def insert_amenity_in_place(place_id, amenity_id):
         else:
             place.amenities.append(amenity)
     else:
-        if amenity.id in place.amenity_id:
+        if amenity.id in place.amenity_ids:
             return jsonify(amenity.to_dict())
         else:
-            place.amenity_id.append(amenity.id)
+            place.amenity_ids.append(amenity.id)
     storage.save()
     return jsonify(amenity.to_dict()), 201
