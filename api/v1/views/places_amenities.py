@@ -10,6 +10,7 @@ from flasgger.utils import swag_from
 
 mode = getenv("HBNB_TYPE_STORAGE")
 
+
 @app_views.route("/places/<place_id>/amenities", methods=["GET"],
                  strict_slashes=False)
 @swag_from('documentation/place_amenity/get_places_amenities.yml',
@@ -25,6 +26,7 @@ def amenities_from_place(place_id):
         return jsonify([
             storage.get(Amenity, _id).to_dict() for _id in place.amenity_ids
         ])
+
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
                  methods=["DELETE"], strict_slashes=False)
@@ -46,6 +48,7 @@ def delete_amenity_from_place(place_id, amenity_id):
     storage.save()
 
     return jsonify({})
+
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
                  methods=["POST"], strict_slashes=False)
