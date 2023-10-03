@@ -8,7 +8,8 @@ from models.user import User
 from api.v1.views import app_views
 from flasgger import swag_from
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'],
+@app_views.route('/cities/<city_id>/places',
+                 methods=['GET'],
                  strict_slashes=False)
 @swag_from('documetation/place/get_place.yml')
 def get_places_by_city(city_id):
@@ -20,7 +21,8 @@ def get_places_by_city(city_id):
     places = [place.to_dict() for place in city.places]
     return jsonify(places)
 
-@app_views.route('/places/<place_id>', methods=['GET'],
+@app_views.route('/places/<place_id>',
+                 methods=['GET'],
                  strict_slashes=False)
 @swag_from('documetation/place/get_place.yml')
 def get_place(place_id):
@@ -79,7 +81,7 @@ def create_place(city_id):
 
 @app_views.route('/places/<place_id>', methods=['PUT'],
                  strict_slashes=False)
-@swag_from('documetation/place/update_place.yml')  # Replace with your Swagger YAML file path
+@swag_from('documetation/place/update_place.yml')
 def update_place(place_id):
     """Update a Place object by its ID"""
     place = storage.get(Place, place_id)
