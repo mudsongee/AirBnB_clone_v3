@@ -40,6 +40,9 @@ def states_with_id(state_id=None):
     state_obj = storage.get('State', state_id)
     if state_obj is None:
         abort(404, 'Not found')
+    if state_obj is None:
+        return jsonify({"error": "State not found"}), 404
+
 
     if request.method == 'GET':
         return jsonify(state_obj.to_json())
