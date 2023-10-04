@@ -41,7 +41,7 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
 
         amenities = relationship('Amenity', secondary="place_amenity",
-                                 viewonly=False)
+                                 viewonly=False, overlaps="amenities,place_amenities")
         reviews = relationship('Review', backref='place', cascade='delete')
     else:
         city_id = ''
@@ -57,49 +57,39 @@ class Place(BaseModel, Base):
         amenity_ids = []
         review_ids = []
 
-        # @property
-        # def amenities(self):
-        #     """
-        #         getter for amenitiess list, i.e. amenities attribute of self
-        #     """
-        #     if len(self.amenity_ids) > 0:
-        #         return amenity_ids
-        #     else:
-        #         return None
+        @property
+        def amenities(self):
+            """
+                getter for amenitiess list, i.e. amenities attribute of self
+            """
+            if len(self.amenity_ids) > 0:
+                return amenity_ids
+            else:
+                return None
 
-        # @amenities.setter
-        # def amenities(self, amenity_obj):
-        #     """
-        #         setter for amenity_ids
-        #     """
-        #     if amenity_obj and amenity_obj not in self.amenity_ids:
-        #         self.amenity_ids.append(amenity_obj.id)
+        @amenities.setter
+        def amenities(self, amenity_obj):
+            """
+                setter for amenity_ids
+            """
+            if amenity_obj and amenity_obj not in self.amenity_ids:
+                self.amenity_ids.append(amenity_obj.id)
 
-        # @property
-        # def reviews(self):
-        #     """
-        #         getter for reviews list, i.e. reviews attribute of self
-        #     """
-        #     if len(self.review_ids) > 0:
-        #         return review_ids
-        #     else:
-        #         return None
+        @property
+        def reviews(self):
+            """
+                getter for reviews list, i.e. reviews attribute of self
+            """
+            if len(self.review_ids) > 0:
+                return review_ids
+            else:
+                return None
 
-        # @reviews.setter
-        # def reviews(self, review_obj):
-        #     """
-        #         setter for review_ids
-        #     """
-        #     if review_obj and review_obj not in self.review_ids:
-        #         self.review_ids.append(review_obj.id)
-class PlaceAmenity(Base):
-    """ PlaceAmenity Class """
-    __tablename__ = 'place_amenity'
-
-    place_id = Column(String(60), ForeignKey('places.id'), nullable=False, primary_key=True)
-    amenity_id = Column(String(60), ForeignKey('amenities.id'), nullable=False, primary_key=True)
-
-    # Define the relationship between PlaceAmenity and Place
-    place = relationship('Place', back_populates='amenities')
-    # Define the relationship between PlaceAmenity and Amenity
-    amenity = relationship('Amenity', back_populates='place_amenities')
+        @reviews.setter
+        def reviews(self, review_obj):
+            """
+                setter for review_ids
+            """
+            if review_obj and review_obj not in self.review_ids:
+                self.review_ids.append(review_obj.id)
+                
