@@ -41,7 +41,8 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
 
         amenities = relationship('Amenity', secondary="place_amenity",
-                                 viewonly=False, overlaps="amenities,place_amenities")
+                                 viewonly=False,
+                                 overlaps="amenities,place_amenities")
         reviews = relationship('Review', backref='place', cascade='delete')
     else:
         city_id = ''
@@ -92,4 +93,3 @@ class Place(BaseModel, Base):
             """
             if review_obj and review_obj not in self.review_ids:
                 self.review_ids.append(review_obj.id)
-                
