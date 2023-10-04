@@ -3,6 +3,7 @@
 This module implement a rule that returns
 the status of the application Done
 """
+
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views
@@ -14,13 +15,11 @@ from models.state import State
 from models.user import User
 import models
 
-
 @app_views.route("/status", strict_slashes=False)
 def view_status():
     """View function that return a json message"""
     response = {"status": "OK"}
     return jsonify(response)
-
 
 @app_views.route("/stats", strict_slashes=False)
 def view_stats():
