@@ -37,12 +37,14 @@ def states_with_id(state_id=None):
     """
         states route to handle http method for requested state by id
     """
-    state_obj = storage.get('State', state_id)
-    # if state_obj is None:
-    #     abort(404, 'Not found')
-    if state_obj is None:
-        return jsonify({"error": "State not found"}), 404
+    print(f"Received state_id: {state_id}")
 
+    state_obj = storage.get('State', state_id)
+    print(f"Retrieved state_obj: {state_obj}")
+    
+    state_obj = storage.get('State', state_id)
+    if state_obj is None:
+        abort(404, 'Not found')
 
     if request.method == 'GET':
         return jsonify(state_obj.to_json())
